@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres-nest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: taskmanagement
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - nestjs-network
+    restart: unless-stopped
+
+  # Uncomment this section when you're ready to containerize your NestJS app
+  # nestjs-app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: nestjs-app
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     DATABASE_HOST: postgres
+  #     DATABASE_PORT: 5432
+  #     DATABASE_USERNAME: postgres
+  #     DATABASE_PASSWORD: postgres
+  #     DATABASE_NAME: taskmanagement
+  #     NODE_ENV: development
+  #   volumes:
+  #     - ./:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   networks:
+  #     - nestjs-network
+  #   restart: unless-stopped
+
+networks:
+  nestjs-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
