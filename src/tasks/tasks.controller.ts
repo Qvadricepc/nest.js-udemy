@@ -28,8 +28,8 @@ export class TasksController {
   }
 
   @Get('/:id')
-  getTaskById(@Param('id') id: string) {
-    return this.tasksService.getTaskById(id);
+  getTaskById(@Param('id') id: string, @GetUser() user: User) {
+    return this.tasksService.getTaskById(id, user);
   }
 
   @Post()
@@ -38,16 +38,17 @@ export class TasksController {
   }
 
   @Delete('/:id')
-  deleteTask(@Param('id') id: string) {
-    return this.tasksService.deleteTask(id);
+  deleteTask(@Param('id') id: string, @GetUser() user: User) {
+    return this.tasksService.deleteTask(id, user);
   }
 
   @Patch('/:id/status')
   updateTaskStatus(
     @Param('id') id: string,
     @Body() updateTaskStatusDto: UpdateTaskStatusDTO,
+    @GetUser() user: User,
   ) {
     const { status } = updateTaskStatusDto;
-    return this.tasksService.patchTaskStatus(id, status);
+    return this.tasksService.patchTaskStatus(id, status, user);
   }
 }
